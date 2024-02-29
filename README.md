@@ -33,4 +33,4 @@ git clone https://github.com/atanuroy22/personal-portfolio.git
 
 ## Contact
 
-If you want to contact me you can reach me at [whatsapp](https://www.wa.me/+919564866051).
+If you want to contact me you can reach me at [whatsapp](https://wa.me/+919564866051).
