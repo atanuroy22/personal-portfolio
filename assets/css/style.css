@@ -1881,3 +1881,147 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+
+
+@font-face {
+font-family: "Geist Sans";
+src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+
+@property --angle {
+inherits: true;
+initial-value: 0deg;
+syntax: '<angle>';
+}
+
+:root {
+--point: hsl(10 90% 70%);
+--spectrum: var(--point), var(--point);
+--blur: 12;
+--brightness: 1.25;
+--border: 2;
+--speed: 4;
+--line: hsl(0 0% 98% / 0.15);
+--transition: 0.25s;
+}
+
+
+
+.but {
+  padding: 1rem 2rem;
+  border-radius: 12px;
+/*   animation: spin calc(var(--speed) * 1s) infinite linear; */
+  border: calc(var(--border) * 1px) solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(#000 40%, #0000 60%) border-box,
+    conic-gradient(from var(--angle, 0deg) in hsl longer hue, var(--spectrum)) 50% 50% / 200% 200% border-box;
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 80;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+}
+
+@keyframes spin { to { --angle: 360deg; }}
+
+.but::before {
+  content: "";
+  height: calc(50% + (var(--border) * 1px));
+  width: calc(100% + (var(--border) * 2px));
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% 0;
+  z-index: -1;
+  background: conic-gradient(from var(--angle, 0deg) in hsl longer hue, var(--spectrum)) 50% 100% / 200% 200% border-box;
+  border-radius: 50% 50% 12px 12px / 20px 20px 12px 12px;
+  filter: blur(calc(var(--blur) * 1px)) brightness(calc(var(--brightness)));
+  scale: calc((0.5 + (var(--intent, 0) * 0.46)) - var(--active, 0));
+  transition: scale var(--transition);
+}
+
+.but::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--border) * -1px);
+  pointer-events: none;
+  border: calc(var(--border) * 1px) solid hsl(0 0% 0% / var(--cover, 0.25));
+  border-radius: 12px;
+  opacity: calc(1 - var(--intent, 0));
+  transition: opacity var(--transition);
+}
+.but a{
+  color: white;
+}
+.but:is(:hover, :focus-visible) { --intent: 1; outline: none; }
+.but:active { --active: 1; }
+
+div.tp-dfwv { width: 280px; }
+
+.scene {
+  
+  transform-style: preserve-3d;
+  transition: transform 1s 3s;
+  animation: spin calc(var(--speed) * 1s) infinite linear running;
+}
+[data-hover=true] .scene {
+  animation: spin calc(var(--speed) * 1s) infinite linear paused;
+}
+[data-hover=true] .scene:is(:hover, :focus-within) {
+  animation-play-state: running;
+}
+
+[data-exploded=true] .scene {
+  transform: rotateX(-24deg) rotateY(24deg);
+  transition: transform 1s 0.5s;
+}
+
+[data-exploded=true] .button-wrap {
+  transform: translate3d(0, 0, 80px);
+  transition: transform 1s 2s;
+}
+[data-exploded=true] .scene::after {
+  transform: translate3d(0, 0, -80px);
+  opacity: 1;
+  transition: transform 1s 2s, opacity 0.25s 2s;
+}
+
+[data-exploded=true] .scene::before {
+  opacity: 0.8;
+  transition: opacity 0.25s 3s;
+}
+
+.scene::before {
+  content: "Blurred Pseudo";
+  position: absolute;
+  right: calc(100% + 4rem);
+  white-space: nowrap;
+  top: 0%;
+  font-weight: 200;
+  opacity: 0;
+  transition: opacity 0.25s 0.5s;
+}
+
+.scene::after {
+  --intent: 1;
+  content: "";
+  height: calc(50% + (var(--border) * 1px));
+  width: calc(100% + (var(--border) * 2px));
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% 0;
+  z-index: -1;
+  opacity: 0;
+  background: conic-gradient(from var(--angle, 0deg) in hsl longer hue, var(--spectrum)) 50% 100% / 200% 200% border-box;
+  border-radius: 50% 50% 12px 12px / 20px 20px 12px 12px;
+  filter: blur(calc(var(--blur) * 1px)) brightness(calc(var(--brightness)));
+  scale: calc((0.5 + (var(--intent, 0) * 0.46)) - var(--active, 0));
+  transition: transform 1s 1s, opacity 0.25s 1s;
+}
+
+.button-wrap {
+  transition: transform 1s 1s;
+}
